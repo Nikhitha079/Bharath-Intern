@@ -1,93 +1,46 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #eee;
-}
-.container{
-    max-width: 450px;
-    background: #b0864c;
-    border-radius: 8px;
-    box-shadow: 0 0 15px 3px rgba(0, 0, 0, 0.4);
-    padding: 20px;
-}
-.title{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap-reverse;
-    gap: 10px;
-}
-.temp-icon{
-    font-size: 45px;
-    color: #000;
-}
-h1{
-    color: #000;
-    letter-spacing: 1.2px;
-    font-size: 30px;
-}
-#celcius, #fahrenheit, #kelvin{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 25px;
-}
-input{
-    flex: 5;
-    height: 60px;
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-    border: none;
-    outline: none;
-    border-radius: 8px 0 0 8px;
-    padding: 0 10px;
+let celciusInput = document.querySelector('#celcius > input')
+let fahrenheitInput = document.querySelector('#fahrenheit > input')
+let kelvinInput = document.querySelector('#kelvin > input')
+
+let btn = document.querySelector('.button button')
+
+function roundNumber(number){
+    return Math.round(number * 100) / 100
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button{
-    -webkit-appearance: none;
-}
+/*-- Celcius to Fahrenheit and Kelvin --*/
+celciusInput.addEventListener('input', function(){
+    let cTemp = parseFloat(celciusInput.value)
+    let fTemp = (cTemp * (9 / 5)) + 32
+    let kTemp = cTemp + 273.15
+
+    fahrenheitInput.value = roundNumber(fTemp)
+    kelvinInput.value = roundNumber(kTemp)
+})
 
 
-input{
-    -moz-appearance: textfield;
-}
-.icon{
-    flex: 1;
-    height: 60px;
-    line-height: 60px;
-    padding: 0 5px;
-    text-align: center;
-    font-size: 30px;
-    background-color: #5896dc;
-    color: #000;
-    border-radius: 0 8px 8px 0;
-}
-.button{
-    margin-top: 25px;
-    text-align: center;
-}
-.button button{
-    border: none;
-    outline: none;
-    padding: 10px 30px;
-    background: #8f58dc;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 600;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.button button:hover{
-    background: #a6f6a6;
-    color: #000;
-}
+/*-- Fahrenheit to Celcius and Kelvin --*/
+fahrenheitInput.addEventListener('input', function(){
+    let fTemp = parseFloat(fahrenheitInput.value)
+    let cTemp = (fTemp - 32) * (5 / 9)
+    let kTemp = (fTemp - 32) * (5 / 9) + 273.15
+
+    celciusInput.value = roundNumber(cTemp)
+    kelvinInput.value = roundNumber(kTemp)
+})
+
+/*-- Kelvin to Celcius and Fahrenheit --*/
+kelvinInput.addEventListener('input', function(){
+    let kTemp = parseFloat(kelvinInput.value)
+    let cTemp = kTemp - 273.15
+    let fTemp = (kTemp - 273.15) * (9 / 5) + 32
+
+    celciusInput.value = roundNumber(cTemp)
+    fahrenheitInput.value = roundNumber(fTemp)
+})
+
+btn.addEventListener('click', ()=>{
+    celciusInput.value = ""
+    fahrenheitInput.value = ""
+    kelvinInput.value = ""
+})
